@@ -9,14 +9,14 @@ api = openaq.OpenAQ()
 def get_plot(shape,city,cnt,pol):
     city = city.capitalize()
     resp = api.latest(city=city, country=cnt, parameter=(pol))
-    fp = shape #"bengaluru/shape/waterways.shp"
+    fp = shape  # "bengaluru/shape/waterways.shp"
     data = gpd.read_file(fp)
-    ax = data.plot()
+    data.plot(zorder=0)
     for i in range(len(resp[1]['results'])):
         lat,long,value  = resp[1]['results'][i]['coordinates']['latitude'],resp[1]['results'][i]['coordinates']['longitude'],resp[1]['results'][i]['measurements'][0]['value']
         print(lat,long)
-        plt.scatter(long,lat,c='red',s=(value*15)/5)
-
+        plt.scatter(long,lat,c='red',s=(value*15)/5,alpha=0.45)
+    plt.title(pol +"pollution")
     plt.show()
 
 while True:
